@@ -1,0 +1,24 @@
+from pyspark.sql import SparkSession
+spark=SparkSession.builder.getOrCreate()
+df = spark.read.parquet("/FileStore/tables/Sample/*")
+
+# df.printSchema()
+df.count()
+
+df.createOrReplaceTempView('Sample')
+
+a = spark.sql("select * from sample where first_name in ('Amanda')")
+
+b = spark.sql("select * from sample where first_name in ('Amanda')")
+
+src = spark.sql("select * from sample")
+
+tgt = spark.sql("select * from sample")
+
+src.subtract(tgt).show()
+
+spark.catalog.dropTempView("Sample")
+
+%fs mkdirs dbfs:/FileStore/tables/Sample
+
+%fs rm -r dbfs:/FileStore/tables/Sample.parquet
